@@ -1,5 +1,28 @@
 <script setup>
+import { ref, computed } from 'vue';
+
+const newTask = ref('');
+const tasks = ref([]);
+const showUnfinishedOnly = ref(false);
+
+const addTask = () => {
+  if (newTask.value.trim()) {
+    tasks.value.push({ text: newTask.value.trim(), done: false });
+    newTask.value = '';
+  }
+};
+
+const removeTask = (index) => {
+  tasks.value.splice(index, 1);
+};
+
+const filteredTasks = computed(() => {
+  return showUnfinishedOnly.value
+    ? tasks.value.filter((task) => !task.done)
+    : tasks.value;
+});
 </script>
+
 
 <template>
   <div class="app">
